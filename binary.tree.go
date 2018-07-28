@@ -148,7 +148,7 @@ func main() {
 	t.Left(11, &tree{id: 24}, "left")
 	fmt.Printf("%v\n", t)
 	t.output()
-	// t.reversal()
+	t.reversal() //反转
 	fmt.Println("反转二叉树后排列\n")
 	t.output()
 }
