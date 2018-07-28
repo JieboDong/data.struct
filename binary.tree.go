@@ -12,7 +12,7 @@ type tree struct {
 }
 
 //添加左节点
-func (t *tree) Left(id int, node *tree) {
+func (t *tree) Left(id int, node *tree, guide string) {
 
 	if t == nil {
 
@@ -20,35 +20,43 @@ func (t *tree) Left(id int, node *tree) {
 
 	} else if t.id == id {
 
-		if t.left == nil {
+		if t.left == nil && guide == "left" {
 			t.left = node
 			return
+		} else if t.right == nil && guide == "right" {
+			t.right = node
+			return
+
 		}
 
 	}
 
-	t.left.Left(id, node)
-	t.right.Right(id, node)
+	t.left.Left(id, node, guide)
+	t.right.Right(id, node, guide)
 }
 
 //添加右节点
-func (t *tree) Right(id int, node *tree) {
+func (t *tree) Right(id int, node *tree, guide string) {
 
 	if t == nil {
 
 		return //如果没有该节点 就退出
 
-	} else if t.id == id {
+	}
+	if t.id == id {
 
-		if t.right == nil {
-
+		if t.left == nil && guide == "left" {
+			t.left = node
+			return
+		} else if t.right == nil && guide == "right" {
 			t.right = node
 			return
+
 		}
 	}
-
-	t.left.Left(id, node)
-	t.right.Right(id, node)
+	fmt.Printf("%v\n", t)
+	t.left.Left(id, node, guide)
+	t.right.Right(id, node, guide)
 }
 
 func (l *tree) output() {
@@ -95,14 +103,52 @@ func (t *tree) Init() {
 
 }
 
+//反转二叉树
+func (t *tree) reversal() {
+
+	//左节点不存在
+	if t.left == nil && t.right != nil {
+
+		l := t.right
+		t.right = t.left
+		t.left = l
+		t.right.reversal()
+		return
+	}
+	//右节点不存在
+	if t.left != nil && t.right == nil {
+		r := t.left
+		t.right = r
+		t.left = nil
+		t.left.reversal()
+		return
+	}
+
+	if t.left != nil && t.right != nil {
+		r := t.left
+		t.left = t.right
+		t.right = r
+		t.left.reversal()
+		t.right.reversal()
+		return
+	}
+	return
+}
+
 func main() {
 
 	//初始化根节点
 	var t tree
-	t.Right(0, &tree{id: 9})
-	t.Left(0, &tree{id: 10})
-	t.Left(10, &tree{id: 11})
+	t.Right(0, &tree{id: 9}, "right")
+	t.Left(0, &tree{id: 10}, "left")
 
-	fmt.Printf("%v", t.left.left.id)
+	t.Right(10, &tree{id: 11}, "right")
+	t.Left(10, &tree{id: 12}, "left")
+	t.Right(11, &tree{id: 23}, "right")
+	t.Left(11, &tree{id: 24}, "left")
+	fmt.Printf("%v\n", t)
+	t.output()
+	// t.reversal()
+	fmt.Println("反转二叉树后排列\n")
 	t.output()
 }
