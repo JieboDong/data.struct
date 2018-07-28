@@ -12,15 +12,16 @@ func (list *list) Append(node *list) error {
 	//初始化判断
 	if list == nil {
 
-		list.next = nil             // 同时是单链表的尾部
-		list.postion = node.postion // 单链表有了第一个元素
+		list.next = nil // 声明一个空指针
+		list.postion = node.postion
 		return nil
 	}
 
 	//递归查找子节点
 	for {
+
 		if list.next == nil {
-			list.next = node // 同时是单链表的尾部
+			list.next = node
 			return nil
 		}
 
