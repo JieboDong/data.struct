@@ -18,6 +18,7 @@ func (list *list) Append(node *list) error {
 	}
 
 	//递归查找子节点
+	origin := list
 	for {
 
 		if list.next == nil {
